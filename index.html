@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <link rel="stylesheet" href="styles.css">
+    <title>Hotel de los secretos</title>
+  </head>
+  <body>
+    <div class="book">
+      <!-- =========================================
+        PÁGINA IZQUIERDA (evento anterior)
+    ========================================== -->
+      <div class="page page-left">
+        <h2 class="book-title">Anterior</h2>
+        <div id="previousText" class="story">
+          <!-- Texto del evento anterior -->
+        </div>
+        <div id="previousChoices" class="previous-choices">
+          <!-- Opciones del evento anterior (una elegida, otra transparente) -->
+        </div>
+
+        <span style="display: flex; justify-content: space-between;">
+          <!-- Botón para guardar progreso -->
+          <button id="bookmarkBtn" title="Guardar progreso">
+            <img src="bookmark-icon.jpg" id="markImg" alt="Bookmark" />
+          </button>
+          <!-- Botón para reiniciar la página -->
+          <button id="restartBtn" class="restart-button" title="Va a borrar todo tu progreso!">Reiniciar</button>
+        </span>
+      </div>
+
+
+      <!-- =========================================
+        PÁGINA DERECHA (evento actual)
+    ========================================== -->
+      <div class="page page-right">
+        <h2 class="book-title">Actual</h2>
+        <div id="currentText" class="story">
+          <!-- Texto del evento actual (máquina de escribir) -->
+        </div>
+        <div id="currentChoices" class="choices">
+          <!-- Botones de opciones actuales -->
+        </div>
+      </div>
+      <!-- =========================================
+        SONIDOS
+    ========================================== -->
+      <audio id="heartbeatSound">
+        <source src="heartbeat.mp3" type="audio/mpeg">
+      </audio>
+      <audio id="typeSound" src="typewriter.mp3" preload="auto" loop></audio>
+
+    </div>
+
+    <script src="book.js"></script>
+
+  </body>
+
+</html>

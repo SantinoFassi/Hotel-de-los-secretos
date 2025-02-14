@@ -1,0 +1,257 @@
+/* =========================================
+    ESTILOS GENERALES
+========================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #eae7dc;
+    /* Color de fondo suave */
+    font-family: 'Georgia', serif;
+    /*height: 100vh;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* =========================================
+    CONTENEDOR PRINCIPAL (LIBRO ABIERTO)
+========================================== */
+.book {
+    display: flex;
+    width: 90%;
+    max-width: 1000px;
+    height: 80%;
+    background: #fdf6e3;
+    /* color pergamino */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Podrías usar una imagen de fondo de un libro abierto real
+    y ajustarla. Aquí un ejemplo de color liso para mostrar la idea. 
+    Si tuvieras una imagen, podrías hacer:
+    background: url('mi-imagen-libro.jpg') no-repeat center/cover; */
+
+/* =========================================
+    PÁGINAS (carilla izquierda y derecha)
+========================================== */
+.page {
+    width: 50%;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+}
+
+.page-left {
+    border-right: 2px solid #d3b17d;
+    /* línea divisoria al centro */
+}
+
+.page-right {
+    /* Podrías darle un poco de espacio o distinto fondo si querés */
+    border-right: 10px solid #d3b17d;
+}
+
+/* Título en cada página (opcional) */
+.book-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 22px;
+    color: #6b4e18;
+}
+
+/* =========================================
+    TEXTO DE HISTORIA
+========================================== */
+.story {
+    flex: 1;
+    margin-bottom: 20px;
+    overflow: auto;
+    /* por si el texto es muy largo */
+    white-space: pre-wrap;
+    /* mantiene saltos de línea */
+    font-size: 18px;
+    line-height: 1.5;
+    color: #333;
+    overflow-y: auto;
+    /* Activa el scrollbar vertical */
+    scrollbar-width: thin;
+    /* Hace el scrollbar más delgado */
+    scrollbar-color: #a67c52 #fdf6e3;
+    /* Color de la barra y fondo */
+}
+
+/* Página anterior: opciones anteriores */
+.previous-choices {
+    margin-top: 10px;
+}
+
+.previous-choice {
+    display: block;
+    font-size: 16px;
+    margin: 3px 0;
+}
+
+/* =========================================
+    BOTONES
+========================================== */
+.restart-button {
+    background: #c33;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    align-self: flex-end;
+    /* para ubicarlo al final de la página izquierda */
+}
+
+.restart-button:hover {
+    background: #a22;
+}
+
+.choices {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.choices button {
+    background-color: #5a9;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.choices button:hover {
+    background-color: #478;
+}
+
+#bookmarkBtn {
+    border: none;
+    align-self: self-start;
+    cursor: pointer;
+    background: brown;
+    display: inline-block;
+}
+
+#bookmarkBtn:hover {
+    filter: brightness(70%);
+}
+
+#markImg {
+    height: 35px;
+    width: auto;
+}
+
+/* =========================================
+    EFECTO CORAZON
+========================================== */
+@keyframes heartbeat {
+    0% {
+        transform: scale(1);
+    }
+
+    30% {
+        transform: scale(1.05);
+    }
+
+    50% {
+        transform: scale(1);
+    }
+
+    70% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.heartbeat-effect {
+    animation: heartbeat 2s;
+}
+
+/* COMPUTADORAS */
+@media (min-width: 769px) {
+    body {
+        background: #eae7dc;
+        /* Color de fondo suave */
+        font-family: 'Georgia', serif;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .book {
+        display: flex;
+        width: 90%;
+        max-width: 1000px;
+        height: 80%;
+        background: #fdf6e3;
+        /* color pergamino */
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        position: relative;
+        overflow: hidden;
+    }
+}
+
+/* CELULARES EN HORIZONTAL */
+@media (min-device-width : 320px) and (max-device-width : 768px) and (orientation : landscape) {
+    body {
+        justify-content: center;
+        align-items: center;
+        overflow: scroll; /* Permite desplazamiento si el contenido es muy grande */
+    }
+    .book {
+        flex-direction: column;
+        height: auto;
+        width: 100%;
+    }
+
+    .page {
+        width: 100%;
+        border: none;
+        padding: 20px;
+    }
+
+    .page-left {
+        border-bottom: 2px solid #d3b17d;
+    }
+}
+
+/* CELULARES EN VERTICAL */
+@media (min-device-width : 320px) and (max-device-width : 768px) and (orientation : portrait) {
+    .book {
+        flex-direction: column;
+        height: 100%;
+        width: auto;
+    }
+
+    .page {
+        width: 100%;
+        border: none;
+        padding: 20px;
+    }
+
+    .page-left {
+        border-bottom: 2px solid #d3b17d;
+        max-height: 30%;
+    }
+}
