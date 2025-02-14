@@ -153,7 +153,7 @@ function saveProgress() {
         previousChoiceIndex: previousChoiceIndex
     };
     localStorage.setItem('storyState', JSON.stringify(state));
-    alert('Progreso guardado!');
+    alert('Progress saved!');
 }
 
 // Cargar el estado guardado del almacenamiento local
