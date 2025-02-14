@@ -256,3 +256,138 @@ body {
         max-height: 30%;
     }
 }
+
+/* =========================================
+   EFECTOS PERSONALIZADOS CON ETIQUETAS
+========================================== */
+
+/* Efecto Shake: cada letra se anima de forma independiente, con intensidad según --shake-force */
+.shake {
+    display: inline-block;
+    /* La variable --shake-force se establecerá vía JS según el atributo data-force, con un valor por defecto */
+    --shake-force: 2;
+  }
+  
+  .shake span {
+    display: inline-block;
+    animation: shakeAnimation 0.5s infinite;
+  }
+  
+  @keyframes shakeAnimation {
+    0% {
+      transform: translateY(0);
+    }
+    25% {
+      transform: translateY(calc(-1 * var(--shake-force) * 1px));
+    }
+    50% {
+      transform: translateY(0);
+    }
+    75% {
+      transform: translateY(calc(var(--shake-force) * 1px));
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+  
+  /* Efecto Glitch: opción basada en pseudo-elementos para capas superpuestas (complementa el efecto JS) */
+  glitch, .glitch {
+    display: inline-block;
+    position: relative;
+    font-family: monospace;
+  }
+  
+  /* Opcionales: pseudo-elementos para simular desplazamientos */
+  .glitch::before, .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: inherit;
+    overflow: hidden;
+    clip: rect(0, 900px, 0, 0);
+  }
+  
+  .glitch::before {
+    animation: glitchBefore 2s infinite linear alternate-reverse;
+  }
+  
+  .glitch::after {
+    animation: glitchAfter 2s infinite linear alternate-reverse;
+  }
+  
+  @keyframes glitchBefore {
+    0% {
+      clip: rect(10px, 9999px, 15px, 0);
+      transform: translate(-2px, -2px);
+    }
+    20% {
+      clip: rect(5px, 9999px, 10px, 0);
+      transform: translate(2px, 2px);
+    }
+    40% {
+      clip: rect(15px, 9999px, 20px, 0);
+      transform: translate(-2px, 2px);
+    }
+    60% {
+      clip: rect(10px, 9999px, 15px, 0);
+      transform: translate(2px, -2px);
+    }
+    80% {
+      clip: rect(5px, 9999px, 10px, 0);
+      transform: translate(-2px, -2px);
+    }
+    100% {
+      clip: rect(15px, 9999px, 20px, 0);
+      transform: translate(2px, 2px);
+    }
+  }
+  
+  @keyframes glitchAfter {
+    0% {
+      clip: rect(15px, 9999px, 20px, 0);
+      transform: translate(2px, 2px);
+    }
+    20% {
+      clip: rect(10px, 9999px, 15px, 0);
+      transform: translate(-2px, -2px);
+    }
+    40% {
+      clip: rect(5px, 9999px, 10px, 0);
+      transform: translate(2px, -2px);
+    }
+    60% {
+      clip: rect(15px, 9999px, 20px, 0);
+      transform: translate(-2px, 2px);
+    }
+    80% {
+      clip: rect(10px, 9999px, 15px, 0);
+      transform: translate(2px, 2px);
+    }
+    100% {
+      clip: rect(5px, 9999px, 10px, 0);
+      transform: translate(-2px, -2px);
+    }
+  }
+  
+/* Animación para slow NO SE ESTA USANDO*/
+/*.slow span {
+    opacity: 0;
+    animation: slowAppear calc(var(--slow-intensity, 1) * 1s) forwards;
+  }
+  @keyframes slowAppear {
+    to { opacity: 1; }
+  }
+*/
+  
+  /* Animación para fade */
+  .fade {
+    opacity: 0;
+    animation: fadeInEffect 1s forwards; /* Por defecto en 1s */
+    }
+    
+  @keyframes fadeInEffect {
+    to { opacity: 1; }
+  }
+  

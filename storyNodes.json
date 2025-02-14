@@ -1,13 +1,13 @@
 {
   "portada": {
-    "text": "A place where past, present, and future intertwine in shadows and whispers. Every door hides a secret, every choice seals a fate. Will you uncover the truth, or become part of the mystery?",
+    "text": "A place where past, <slow>present</slow>, and future intertwine in shadows and whispers. Every door hides a <shake force=1>secret</shake>, every choice seals a fate. Will you uncover the <fade>truth</fade>, or become part of the mystery?",
     "options": [
       { "text": "Start", "next": "inicio" }
     ],
     "isEnding": false
   },
   "inicio": {
-    "text": "You wake up in an unfamiliar room. The only thing you remember is checking into a hotel. The red velvet carpet, the heavy curtains blocking the light, and the faint scent of dampness feel foreign. On the nightstand, a sealed letter bearing your name waits.\n\nUpon opening it, you recognize the handwriting instantly: yours, but older, steadier.\n\n'If you're reading this, then it's already too late. Trust no one. Do not believe what they tell you. Remember that every choice has a price.'\n\nThe signature at the bottom sends a chill down your spine: 'You, Scarlet.'",
+    "text": "You wake up in an unfamiliar room. The only thing you remember is checking into a hotel. The red velvet carpet, the heavy curtains blocking the light, and the faint scent of dampness feel foreign. On the nightstand, a sealed letter bearing your name waits.\n\nUpon opening it, you recognize the handwriting instantly: yours, but older, <slow>steadier.</slow>\n\n'If you're reading this, then it's already <shake force=1>too late.</shake> Trust no one. Do not believe what they tell you. Remember that every choice has a price.'\n\nThe signature at the bottom sends a chill down your spine:<slow speed=300> </slow>'<glitch>You, Scarlet.</glitch>'",
     "options": [
       { "text": "Check the bathroom.", "next": "1A" },
       { "text": "Step into the hallway.", "next": "1B" }
@@ -15,7 +15,7 @@
     "isEnding": false
   },
   "1A": {
-    "text": "The fogged-up mirror reveals a young girl, around 8 years old, with facial features eerily similar to yours. She is writing: 'Why did you abandon me?'\n\nThe bathtub overflows with black water.",
+    "text": "The fogged-up mirror reveals a young girl, around 8 years old, with facial features eerily similar to yours. She is writing: <fade>'Why did you abandon me?'</fade>\n\nThe bathtub overflows with black water.",
     "options": [
       { "text": "Touch the water.", "next": "2A" },
       { "text": "Shatter the mirror.", "next": "2B" }
@@ -31,7 +31,7 @@
     "isEnding": false
   },
   "2A": {
-    "text": "You feel something cold around your neck.\n\nThe water evaporates, leaving behind a silver necklace engraved with the initials S.S. and the date 18/03/2010. Your accident.\n\nA floating diary drifts open to an entry that reads: 'I did something terrible. No one knows.'",
+    "text": "You feel something cold around your neck.\n\nThe water evaporates, leaving behind a silver necklace engraved with the initials <slow>S.S.</slow> and the date 18/03/2010.<slow speed=400> </slow>Your accident.\n\nA floating diary drifts open to an entry that reads: 'I did something terrible. <glitch>No one knows</glitch>.'",
     "options": [
       { "text": "Read the confession aloud.", "next": "F-loop" },
       { "text": "Burn the diary.", "next": "3A" }
@@ -39,7 +39,7 @@
     "isEnding": false
   },
   "2B": {
-    "text": "Blood trickles from your hand; the girl in the mirror smiles.\n\nShe hands you a faceless doll and whispers: 'Mom locked me in here. Why don't you love me?'",
+    "text": "Blood trickles from your hand; the g<glitch>i</glitch>r<glitch>l</glitch> in the mirror smiles.\n\nShe hands you a faceless doll and whispers: <fade>'Mom locked me in here.</fade><slow speed=500> </slow><fade>Why don't you love me?'</fade>",
     "options": [
       { "text": "Follow the girl.", "next": "3B" },
       { "text": "Return to your room.", "next": "F-loop" }
@@ -47,7 +47,7 @@
     "isEnding": false
   },
   "2C": {
-    "text": "You catch the woman in the elevator. Her suitcases are filled with *childhood photos of you.* She presses a button labeled Ψ and mutters: 'This hotel exists because you allow it.'",
+    "text": "You catch the woman in the elevator. Her suitcases are filled with *childhood photos of <glitch>you</glitch>.* She presses a button labeled Ψ and mutters: 'This hotel exists because <shake force=1>you</shake> allow it.'",
     "options": [
       { "text": "Push her aside and take her place.", "next": "F-otherSelf" },
       { "text": "Freeze in place.", "next": "3C" }
@@ -55,7 +55,7 @@
     "isEnding": false
   },
   "2D": {
-    "text": "A projector plays footage of *you* signing a contract, tears streaming down your face. The text on the screen reads:\n\n'I trade one memory for one year of life.'",
+    "text": "A projector plays footage of *<glitch>you</glitch>* signing a contract, tears streaming down your face. The text on the screen reads:\n\n<fade>'I trade one memory for one year of life.'</fade>",
     "options": [
       { "text": "Search for the physical contract.", "next": "3D" },
       { "text": "Destroy the projector.", "next": "F-warningIgnored" }
@@ -63,7 +63,7 @@
     "isEnding": false
   },
   "3A": {
-    "text": "The diary's ashes form a map of the hotel. An 'X' marks room 830. The walls whisper: 'The truth burns more than fire.'",
+    "text": "The diary's ashes form a map of the hotel. An 'X' marks room 830. The walls whisper: 'The <glitch>truth</glitch> burns more than fire.'",
     "options": [
       { "text": "Go to room 830.", "next": "F-truthRevealed" },
       { "text": "Ignore the map.", "next": "F-warningIgnored" }
@@ -71,7 +71,7 @@
     "isEnding": false
   },
   "3B": {
-    "text": "The girl leads you to a withered garden where a tree is covered in *photographs of you in alternate lives.* In every one, you are dead, missing, or trapped.",
+    "text": "The girl leads you to a withered garden where a tree is covered in *photographs of you in <fade>alternate</fade> lives.* In every one, you are <glitch>dead</glitch>, <fade>missing</fade>, or <slow>trapped.</slow>",
     "options": [
       { "text": "Take a photo.", "next": "F-reflectionAccepted" },
       { "text": "Apologize.", "next": "4A" }
@@ -79,7 +79,7 @@
     "isEnding": false
   },
   "3C": {
-    "text": "The elevator plummets for hours. As you fall, the walls reveal your father crying beside an empty grave. The woman repeats: 'It was your fault.'",
+    "text": "The elevator plummets for hours. As you fall, the walls reveal your father crying beside an empty grave. The woman repeats: 'It was <glitch>your</glitch> fault.'",
     "options": [
       { "text": "Scream to stop it.", "next": "F-loop" },
       { "text": "Accept the descent.", "next": "F-otherSelf" }
@@ -87,7 +87,7 @@
     "isEnding": false
   },
   "3D": {
-    "text": "Beneath the floor, you find *87 contracts*, all signed by you. The oldest one dates back to 1998—the year you were born.\n\nThe hotel manager is... *your future self*.",
+    "text": "Beneath the floor, you find <fade>*87 contracts*</fade>, all signed by you. The oldest one dates back to 1998—the year you were born.\n\nThe hotel manager is... *your future <glitch>self</glitch>*.",
     "options": [
       { "text": "Sign another contract.", "next": "F-debtPaid" },
       { "text": "Use the key from room 304 on the chest.", "next": "4B" }
@@ -95,14 +95,14 @@
     "isEnding": false
   },
   "4A": {
-    "text": "The girl dissolves into fireflies. A door appears with a sign reading 'Exit.' As you step through, your heart stops for a few seconds.",
+    "text": "The girl dissolves into fireflies. A door appears with a sign reading <fade>'Exit.'</fade> As you step through, your heart stops for a few seconds.",
     "options": [
       { "text": "Step outside.", "next": "F-atWhatCost" }
     ],
     "isEnding": true
   },
   "4B": {
-    "text": "Inside the chest, you find a VHS tape labeled: 'Accident 18/03/2010.' Upon watching it, you realize *you weren’t responsible*.",
+    "text": "Inside the chest, you find a VHS tape labeled: '<glitch>Accident</glitch> 18/03/2010.' Upon watching it, you realize <slow>*you weren’t responsible*.</slow>",
     "options": [
       { "text": "Destroy the evidence.", "next": "F-truthRevealed" },
       { "text": "Confront your future self.", "next": "F-otherSelf" }
@@ -110,44 +110,51 @@
     "isEnding": true
   },
   "F-loop": {
-    "text": "Every time you try to leave, you wake up in room 304. Each time, your reflection grows blurrier, your memories hazier.\n\nIn the real world, your family receives an annual letter: 'I'm sorry.'",
+    "text": "Every time you try to leave, you wake up in room 304. Each time, your <fade>reflection</fade> grows blurrier, your memories hazier.\n\nIn the real world, your family receives an annual letter: <slow>'I'm sorry.'</slow>",
     "options": [
-      { "text": "Restart.", "next": "inicio" }
+      { "text": "<glitch>Restart.</glitch>", "next": "inicio" }
     ],
     "isEnding": true
   },
   "F-otherSelf": {
-    "text": "You escape, but now live the life of an alternate version of yourself. Yet in every mirror, you see the woman from the elevator.\n\nOne day, the phone rings. You answer: 'Yes, Manager. I'm ready.'",
+    "text": "You escape, but now live the life of an alternate version of yourself. Yet in every <slow speed=50>mirror,</slow> you see the woman from the elevator.\n\nOne day, the phone rings. You answer: 'Yes, <glitch>Manager</glitch>. I'm ready.'",
     "options": [
-      { "text": "Restart.", "next": "inicio" }
+      { "text": "<glitch>Restart.</glitch>", "next": "inicio" }
     ],
     "isEnding": true
   },
   "F-debtPaid": {
-    "text": "Your body fades into the hotel as the girl regains her face.\n\nIn the real world, everyone forgets you ever existed.",
+    "text": "Your body fades into the hotel as the girl regains her <glitch>face</glitch>.\n\nIn the real world, everyone forgets you ever existed.",
     "options": [
-      { "text": "Restart.", "next": "inicio" }
+      { "text": "<glitch>Restart.</glitch>", "next": "inicio" }
     ],
     "isEnding": true
   },
   "F-reflectionAccepted": {
-    "text": "You return to reality, but something is wrong. You're no longer in control of your body. The girl now lives your life, while you are merely a spectator.",
+    "text": "You return to <glitch>reality</glitch>, but something is wrong. You're <instant>no</instant> longer in control of your body. The girl now lives your life, while you are merely a <glitch>spec</glitch>tat<glitch>or</glitch>.",
     "options": [
-      { "text": "Restart.", "next": "inicio" }
+      { "text": "<glitch>Restart.</glitch>", "next": "inicio" }
     ],
     "isEnding": true
   },
   "F-atWhatCost": {
-    "text": "You escape, but feel no love, no fear, no guilt.\n\nYour family and friends slowly drift away. At night, you hum songs with the girl.",
+    "text": "You escape, but feel no love, no fear, no guilt.\n\nYour family and friends slowly drift away. At night, you hum songs with the <glitch>girl</glitch>.",
     "options": [
-      { "text": "Restart.", "next": "inicio" }
+      { "text": "<glitch>Restart.</glitch>", "next": "inicio" }
     ],
     "isEnding": true
   },
   "F-warningIgnored": {
-    "text": "Each time you look in the mirror, your reflection lags behind. Over the years, the delay grows.\n\nThe last time you were seen, you were sitting in front of a mirror… waiting for your reflection to blink first.",
+    "text": "Each time you look in the <fade>mirror</fade>, your reflection lags behind. Over the years, the delay <slow>grows.</slow>\n\nThe last time you were seen, you were sitting in front of a <glitch>mirror</glitch>… waiting for your reflection to blink first.",
     "options": [
-      { "text": "Restart.", "next": "inicio" }
+      { "text": "<glitch>Restart.</glitch>", "next": "inicio" }
+    ],
+    "isEnding": true
+  },
+  "F-truthRevealed": {
+    "text": "You discover that the hotel is your creation. Now, you must manage it, tempting past versions of yourself.\nThe girl is your first <glitch>victim</glitch>.",
+    "options": [
+      { "text": "<glitch>Restart.</glitch>", "next": "inicio" }
     ],
     "isEnding": true
   }
