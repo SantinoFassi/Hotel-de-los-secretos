@@ -1,0 +1,154 @@
+{
+  "portada": {
+    "text": "A place where past, present, and future intertwine in shadows and whispers. Every door hides a secret, every choice seals a fate. Will you uncover the truth, or become part of the mystery?",
+    "options": [
+      { "text": "Start", "next": "inicio" }
+    ],
+    "isEnding": false
+  },
+  "inicio": {
+    "text": "You wake up in an unfamiliar room. The only thing you remember is checking into a hotel. The red velvet carpet, the heavy curtains blocking the light, and the faint scent of dampness feel foreign. On the nightstand, a sealed letter bearing your name waits.\n\nUpon opening it, you recognize the handwriting instantly: yours, but older, steadier.\n\n'If you're reading this, then it's already too late. Trust no one. Do not believe what they tell you. Remember that every choice has a price.'\n\nThe signature at the bottom sends a chill down your spine: 'You, Scarlet.'",
+    "options": [
+      { "text": "Check the bathroom.", "next": "1A" },
+      { "text": "Step into the hallway.", "next": "1B" }
+    ],
+    "isEnding": false
+  },
+  "1A": {
+    "text": "The fogged-up mirror reveals a young girl, around 8 years old, with facial features eerily similar to yours. She is writing: 'Why did you abandon me?'\n\nThe bathtub overflows with black water.",
+    "options": [
+      { "text": "Touch the water.", "next": "2A" },
+      { "text": "Shatter the mirror.", "next": "2B" }
+    ],
+    "isEnding": false
+  },
+  "1B": {
+    "text": "Portraits of you at different ages line the hallway walls. At the far end, a woman identical to you is carrying a suitcase toward the elevator. Meanwhile, the door to room 87 is slightly ajar.",
+    "options": [
+      { "text": "Chase the woman.", "next": "2C" },
+      { "text": "Enter room 87.", "next": "2D" }
+    ],
+    "isEnding": false
+  },
+  "2A": {
+    "text": "You feel something cold around your neck.\n\nThe water evaporates, leaving behind a silver necklace engraved with the initials S.S. and the date 18/03/2010. Your accident.\n\nA floating diary drifts open to an entry that reads: 'I did something terrible. No one knows.'",
+    "options": [
+      { "text": "Read the confession aloud.", "next": "F-loop" },
+      { "text": "Burn the diary.", "next": "3A" }
+    ],
+    "isEnding": false
+  },
+  "2B": {
+    "text": "Blood trickles from your hand; the girl in the mirror smiles.\n\nShe hands you a faceless doll and whispers: 'Mom locked me in here. Why don't you love me?'",
+    "options": [
+      { "text": "Follow the girl.", "next": "3B" },
+      { "text": "Return to your room.", "next": "F-loop" }
+    ],
+    "isEnding": false
+  },
+  "2C": {
+    "text": "You catch the woman in the elevator. Her suitcases are filled with *childhood photos of you.* She presses a button labeled Ψ and mutters: 'This hotel exists because you allow it.'",
+    "options": [
+      { "text": "Push her aside and take her place.", "next": "F-otherSelf" },
+      { "text": "Freeze in place.", "next": "3C" }
+    ],
+    "isEnding": false
+  },
+  "2D": {
+    "text": "A projector plays footage of *you* signing a contract, tears streaming down your face. The text on the screen reads:\n\n'I trade one memory for one year of life.'",
+    "options": [
+      { "text": "Search for the physical contract.", "next": "3D" },
+      { "text": "Destroy the projector.", "next": "F-warningIgnored" }
+    ],
+    "isEnding": false
+  },
+  "3A": {
+    "text": "The diary's ashes form a map of the hotel. An 'X' marks room 830. The walls whisper: 'The truth burns more than fire.'",
+    "options": [
+      { "text": "Go to room 830.", "next": "F-truthRevealed" },
+      { "text": "Ignore the map.", "next": "F-warningIgnored" }
+    ],
+    "isEnding": false
+  },
+  "3B": {
+    "text": "The girl leads you to a withered garden where a tree is covered in *photographs of you in alternate lives.* In every one, you are dead, missing, or trapped.",
+    "options": [
+      { "text": "Take a photo.", "next": "F-reflectionAccepted" },
+      { "text": "Apologize.", "next": "4A" }
+    ],
+    "isEnding": false
+  },
+  "3C": {
+    "text": "The elevator plummets for hours. As you fall, the walls reveal your father crying beside an empty grave. The woman repeats: 'It was your fault.'",
+    "options": [
+      { "text": "Scream to stop it.", "next": "F-loop" },
+      { "text": "Accept the descent.", "next": "F-otherSelf" }
+    ],
+    "isEnding": false
+  },
+  "3D": {
+    "text": "Beneath the floor, you find *87 contracts*, all signed by you. The oldest one dates back to 1998—the year you were born.\n\nThe hotel manager is... *your future self*.",
+    "options": [
+      { "text": "Sign another contract.", "next": "F-debtPaid" },
+      { "text": "Use the key from room 304 on the chest.", "next": "4B" }
+    ],
+    "isEnding": false
+  },
+  "4A": {
+    "text": "The girl dissolves into fireflies. A door appears with a sign reading 'Exit.' As you step through, your heart stops for a few seconds.",
+    "options": [
+      { "text": "Step outside.", "next": "F-atWhatCost" }
+    ],
+    "isEnding": true
+  },
+  "4B": {
+    "text": "Inside the chest, you find a VHS tape labeled: 'Accident 18/03/2010.' Upon watching it, you realize *you weren’t responsible*.",
+    "options": [
+      { "text": "Destroy the evidence.", "next": "F-truthRevealed" },
+      { "text": "Confront your future self.", "next": "F-otherSelf" }
+    ],
+    "isEnding": true
+  },
+  "F-loop": {
+    "text": "Every time you try to leave, you wake up in room 304. Each time, your reflection grows blurrier, your memories hazier.\n\nIn the real world, your family receives an annual letter: 'I'm sorry.'",
+    "options": [
+      { "text": "Restart.", "next": "inicio" }
+    ],
+    "isEnding": true
+  },
+  "F-otherSelf": {
+    "text": "You escape, but now live the life of an alternate version of yourself. Yet in every mirror, you see the woman from the elevator.\n\nOne day, the phone rings. You answer: 'Yes, Manager. I'm ready.'",
+    "options": [
+      { "text": "Restart.", "next": "inicio" }
+    ],
+    "isEnding": true
+  },
+  "F-debtPaid": {
+    "text": "Your body fades into the hotel as the girl regains her face.\n\nIn the real world, everyone forgets you ever existed.",
+    "options": [
+      { "text": "Restart.", "next": "inicio" }
+    ],
+    "isEnding": true
+  },
+  "F-reflectionAccepted": {
+    "text": "You return to reality, but something is wrong. You're no longer in control of your body. The girl now lives your life, while you are merely a spectator.",
+    "options": [
+      { "text": "Restart.", "next": "inicio" }
+    ],
+    "isEnding": true
+  },
+  "F-atWhatCost": {
+    "text": "You escape, but feel no love, no fear, no guilt.\n\nYour family and friends slowly drift away. At night, you hum songs with the girl.",
+    "options": [
+      { "text": "Restart.", "next": "inicio" }
+    ],
+    "isEnding": true
+  },
+  "F-warningIgnored": {
+    "text": "Each time you look in the mirror, your reflection lags behind. Over the years, the delay grows.\n\nThe last time you were seen, you were sitting in front of a mirror… waiting for your reflection to blink first.",
+    "options": [
+      { "text": "Restart.", "next": "inicio" }
+    ],
+    "isEnding": true
+  }
+}
