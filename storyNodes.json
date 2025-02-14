@@ -1,13 +1,13 @@
 {
   "portada": {
-    "text": "Un lugar donde pasado, presente y futuro se entrelazan en sombras y susurros. Cada puerta esconde un secreto, cada elección sella un destino. ¿Descubrirás la verdad o te convertirás en parte del misterio?",
+    "text": "Un lugar donde pasado, <slow>presente</slow> y futuro se entrelazan en sombras y susurros. Cada puerta esconde un <shake force=1>secreto</shake>, cada elección sella un destino. ¿Descubrirás la <fade speed=1>verdad</fade> o te convertirás en parte del misterio?",
     "options":[
       {"text": "Empezar", "next": "inicio"}
     ],
     "isEnding": false
   },
     "inicio": {
-      "text": "Te despiertas en una habitación desconocida. Lo único que recuerdas fue alojarte en un hotel. La alfombra de terciopelo rojo, las cortinas pesadas que bloquean la luz y el ligero olor a humedad te resultan ajenos. En la mesa de noche, una carta con tu nombre descansa sellada.\nAl abrirla, reconoces la letra al instante: es tuya, pero más madura, más firme.\n'Si estás leyendo esto, entonces es demasiado tarde. No confíes en nadie. No creas lo que te dicen. Recuerda que cada elección tiene un precio.'\nLa firma al final es pertubadora. 'Tú, Scarlet'.",
+      "text": "Te despiertas en una habitación desconocida. Lo único que recuerdas fue alojarte en un hotel. La alfombra de terciopelo rojo, las cortinas pesadas que bloquean la luz y el ligero olor a humedad te resultan<slow speed=300>..</slow> ajenos.<slow speed=300> </slow>En la mesa de noche, una carta con tu nombre descansa sellada.\nAl abrirla, reconoces la letra al instante: es tuya, pero más madura, <slow>más firme</slow>.\n'Si estás leyendo esto, entonces es <shake force=1>demasiado tarde</shake>. No confíes en nadie. No creas lo que te dicen. Recuerda que cada elección tiene un precio.'\nLa firma al final es pertubadora.<slow speed=300>. </slow><glitch>'Tú, Scarlet'</glitch>.",
       "options": [
         { "text": "Revisar baño.", "next": "1A" },
         { "text": "Salir al pasillo.", "next": "1B" }
@@ -15,7 +15,7 @@
       "isEnding": false
     },
     "1A": {
-      "text": "El espejo empañado muestra a una niña de ~8 años, con rasgos faciales similares a los tuyos, escribiendo '¿Por qué me abandonaste?'. La bañera desborda agua negra.",
+      "text": "El espejo empañado muestra a una niña de ~8 años, con rasgos faciales similares a los tuyos, escribiendo <fade>'¿Por qué me abandonaste?'</fade>. La bañera desborda agua negra.",
       "options": [
         { "text": "Tocar el agua.", "next": "2A" },
         { "text": "Romper el espejo.", "next": "2B" }
@@ -31,7 +31,7 @@
       "isEnding": false
     },
     "2A": {
-      "text": "Sientes un collar helado.\nEl agua se evapora, dejando un collar de plata con las iniciales S.S. y la fecha 18/03/2010. Tu accidente.\nUn diario flota con la entrada: 'Hice algo horrible. Nadie lo sabe'.",
+      "text": "Sientes un collar helado.\nEl agua se evapora, dejando un collar de plata con las iniciales <slow>S.S.</slow> y la fecha 18/03/2010.<slow speed=400> </slow>Tu accidente.\nUn diario flota con la entrada: 'Hice algo horrible. <glitch>Nadie lo sabe'</glitch>.",
       "options": [
         { "text": "Leer la confesión en voz alta.", "next": "F-bucle" },
         {"text": "Quemar el diario.", "next": "3A"}
@@ -39,7 +39,7 @@
       "isEnding": false
     },
     "2B": {
-      "text": "Sangras; la niña sonríe.\nLa niña del espejo te entrega una muñeca sin rostro. Susurra: 'Mamá me encerró aquí. ¿Por qué no me quieres?'.",
+      "text": "Sangras; la n<glitch>i</glitch>ña sonríe.\nElla te entrega una muñeca sin rostro. Susurra: <fade>'Mamá me encerró aquí.</fade><slow speed=500> </slow><fade>¿Por qué no me quieres?'</fade>.",
       "options": [
         { "text": "Seguir a la niña.", "next": "3B" },
         { "text": "Volver a la habitación.", "next": "F-bucle" }
@@ -47,7 +47,7 @@
       "isEnding": false
     },
     "2C": {
-      "text": "Atrapas a la mujer en el ascensor. Sus maletas están llenas de *tus fotos infantiles*. Presiona el botón Ψ: 'Este hotel existe porque tú lo permitiste'.",
+      "text": "Atrapas a la mujer en el ascensor. Sus maletas están llenas de *tus fotos <slow speed=50>infantiles</slow>*. Presiona el botón Ψ: 'Este hotel existe porque <shake force=1>tú</shake> lo permitiste'.",
       "options": [
         { "text": "Empujarla y tomar su lugar.", "next": "F-otroYo" },
         { "text": "Quedarte paralizada.", "next": "3C" }
@@ -55,7 +55,7 @@
       "isEnding": false
     },
     "2D": {
-      "text": "Un proyector muestra un video de *tú misma* firmando un contrato llorando. El texto dice: \n'Intercambio un recuerdo por un año de vida'.",
+      "text": "Un proyector muestra un video de *tú misma* firmando un contrato llorando. El texto dice: \n<fade>'Intercambio un recuerdo por un año de vida'</fade>.",
       "options": [
         { "text": "Buscar el contrato físico.", "next": "3D" },
         { "text": "Destruir el proyector.", "next": "F-advertenciaIgnorada" }
@@ -63,7 +63,7 @@
       "isEnding": false
     },
     "3A": {
-      "text": "Las cenizas del diario forman un mapa del hotel. Una X marca la habitación 830. Las paredes susurran: 'La verdad duele más que el fuego'.",
+      "text": "Las cenizas del diario forman un mapa del hotel. Una X marca la habitación 830. Las paredes susurran: 'La <glitch>verdad</glitch> duele más que el fuego'.",
       "options": [
         { "text": "Ir a la habitación 830.", "next": "F-verdadRevelada" },
         { "text": "Ignorar el mapa.", "next": "F-advertenciaIgnorada" }
@@ -71,7 +71,7 @@
       "isEnding": false
     },
     "3B": {
-      "text": "La niña te lleva a un jardín seco con un árbol lleno de *fotos de ti en vidas alternas*. En todas, estás muerta, desaparecida o encerrada.",
+      "text": "La niña te lleva a un jardín seco con un árbol lleno de *fotos de ti en vidas <fade>alternas*</fade>. En todas, estás mu<glitch>ert</glitch>a, desa<glitch>p</glitch>arecida o encer<glitch>r</glitch>ada.",
       "options": [
         { "text": "Tomar una foto.", "next": "F-reflejoAceptado" },
         { "text": "Pedir perdón.", "next": "4A" }
@@ -79,7 +79,7 @@
       "isEnding": false
     },
     "3C": {
-      "text": "El ascensor cae durante horas. Las paredes muestran a tu padre llorando frente a una tumba vacía. La mujer repite: 'Fue tu culpa'.",
+      "text": "El ascensor cae durante horas. Las paredes muestran a tu padre llorando frente a una tumba vacía. La mujer repite: 'Fue <glitch>tu</glitch> culpa'.",
       "options": [
         { "text": "Gritar para detenerlo.", "next": "F-bucle" },
         { "text": "Aceptar el viaje.", "next": "F-otroYo" }
@@ -87,7 +87,7 @@
       "isEnding": false
     },
     "3D": {
-      "text": "Bajo el piso, encuentras *87 contratos* firmados por ti. El más antiguo data de 1998, el mismo año de tu nacimiento. El gerente del hotel es... *tu yo del futuro*.",
+      "text": "Bajo el piso, encuentras <fade>*87 contratos*</fade> firmados por ti. El más antiguo data de 1998, el mismo año de tu nacimiento. El gerente del hotel es... *tu <glitch>yo</glitch> del futuro*.",
       "options": [
         { "text": "Firmar otro contrato.", "next": "F-deudaPagada" },
         { "text": "Usar la llave 304 en el cofre.", "next": "4B" }
@@ -95,14 +95,14 @@
       "isEnding": false
     },
     "4A": {
-      "text": "La niña se disuelve en luciérganas. Una puerta aparece con el letrero 'Salida', al cruzarla, tu corazón deja de latir por unos segundos.",
+      "text": "La niña se disuelve en luciérganas. Una puerta aparece con el letrero <fade>'Salida'</fade>, al cruzarla, tu corazón deja de latir por unos segundos.",
       "options": [
         { "text": "Salir al exterior.", "next": "F-aQuePrecio" }
       ],
       "isEnding": false
     },
     "4B": {
-      "text": "El cofre revela un VHS: 'Accidente 18/03/2010'. Al verlo, descubres que *tu no lo hiciste*.",
+      "text": "El cofre revela un VHS: 'Accidente 18/03/2010'. Al verlo, descubres que <glitch>*tu no lo hiciste*.</glitch>",
       "options": [
         { "text": "Destruir la evidencia.", "next": "F-verdadRevelada" },
         { "text": "Buscar a tu yo futuro.", "next": "F-otroYo" }
@@ -110,51 +110,51 @@
       "isEnding": false
     },
     "F-bucle": {
-      "text": "Cada vez que intentas salir, despiertas en la habitación 304. Cada vez tu reflejo es más borroso y tu memoria se vuelve nublosa.\nEn el mundo real, tu familia recibe una carta anual: 'Lo siento'.",
+      "text": "Cada vez que intentas salir, despiertas en la habitación 304. Cada vez tu <fade>reflejo</fade> es más borroso y tu memoria se vuelve nublosa.\nEn el mundo real, tu familia recibe una carta anual: 'Lo siento'.",
       "options": [
-        { "text": "Reiniciar.", "next": "inicio" }
+        { "text": "<glitch>Reiniciar.</glitch>", "next": "inicio" }
       ],
       "isEnding": true
     },
     "F-otroYo": {
-      "text": "Al escapar, ocupas la vida de una versión paralela de ti. Pero en cada espejo, ves a la mujer del ascensor.\nUn día, te llama y dices: 'Sí, gerente. Estoy lista'.",
+      "text": "Al escapar, ocupas la vida de una versión paralela de ti. Pero en cada <slow speed=50>espejo</slow>, ves a la mujer del ascensor.\nUn día, te llama y dices: 'Sí, gerente. Estoy lista'.",
       "options": [
-        { "text": "Reiniciar.", "next": "inicio" }
+        { "text": "<glitch>Reiniciar.</glitch>", "next": "inicio" }
       ],
       "isEnding": true
     },
     "F-deudaPagada": {
-      "text": "Tu cuerpo se desvanece en el hotel mientras la niña recupera su rostro.\nEn tu vida real, todos olvidan tu existencia.",
+      "text": "Tu cuerpo se desvanece en el hotel mientras la niña recupera su <glitch>rostro</glitch>.\nEn tu vida real, todos olvidan tu existencia.",
       "options": [
-        { "text": "Reiniciar.", "next": "inicio" }
+        { "text": "<glitch>Reiniciar.</glitch>", "next": "inicio" }
       ],
       "isEnding": true
     },
     "F-reflejoAceptado": {
-      "text": "Vuelves a la realidad, pero te das cuenta que no eres tú, y que no tienes el control de tu cuerpo. La niña vive tu vida mientras tu eres una simple espectadora.",
+      "text": "Vuelves a la <glitch>realidad</glitch>, pero te das cuenta que no eres tú, y que <glitch>no</glitch> tienes el control de tu cuerpo. La niña vive tu vida mientras tu eres una <glitch>sim</glitch>ple especta<glitch>dora</glitch>.",
       "options": [
-        { "text": "Reiniciar.", "next": "inicio" }
+        { "text": "<glitch>Reiniciar.</glitch>", "next": "inicio" }
       ],
       "isEnding": true
     },
     "F-aQuePrecio": {
-      "text": "Logras salir, pero no sientes amor, miedo ni culpa.\nTu familia y amigos empiezan a abandonarte, lo único que esperas son las noches para tararear canciones con la niña.",
+      "text": "Logras salir, pero no sientes amor, miedo ni culpa.\nTu familia y amigos empiezan a abandonarte, lo único que esperas son las noches para tararear canciones con la n<glitch>i</glitch>ña.",
       "options": [
-        { "text": "Reiniciar.", "next": "inicio" }
+        { "text": "<glitch>Reiniciar.</glitch>", "next": "inicio" }
       ],
       "isEnding": true
     },
     "F-advertenciaIgnorada": {
-      "text": "Cada vez que te miras al espejo, tu reflejo tarda 3 segundos en imitarte. Con los años, el retraso crece.\nLa última vez que te vieron, estabas sentada frente al espejo... esperando a que tu reflejo parpadeara primero.",
+      "text": "Cada vez que te miras al <fade>espejo</fade>, tu reflejo tarda 3 segundos en imitarte. Con los años, el retraso crece.\nLa última vez que te vieron, estabas sentada frente al esp<glitch>e</glitch>jo... esperando a que tu reflejo parpadeara primero.",
       "options": [
-        { "text": "Reiniciar.", "next": "inicio" }
+        { "text": "<glitch>Reiniciar.</glitch>", "next": "inicio" }
       ],
       "isEnding": true
     },
     "F-verdadRevelada": {
-      "text": "Descubres que el hotel es tu creación. Ahora debes administrarlo, tentando a versiones pasadas de ti.\nLa niña es tu primera víctima.",
+      "text": "Descubres que el hotel es tu creación. Ahora debes administrarlo, tentando a versiones pasadas de ti.\nLa niña es tu primera <glitch>víctima</glitch>.",
       "options": [
-        { "text": "Reiniciar.", "next": "inicio" }
+        { "text": "<glitch>Reiniciar.</glitch>", "next": "inicio" }
       ],
       "isEnding": true
     }
