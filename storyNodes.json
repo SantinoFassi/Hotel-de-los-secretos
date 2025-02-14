@@ -1,6 +1,6 @@
 {
   "portada": {
-    "text": "",
+    "text": "Un lugar donde pasado, presente y futuro se entrelazan en sombras y susurros. Cada puerta esconde un secreto, cada elección sella un destino. ¿Descubrirás la verdad o te convertirás en parte del misterio?",
     "options":[
       {"text": "Empezar", "next": "inicio"}
     ],

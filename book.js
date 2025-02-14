@@ -19,27 +19,41 @@ const heartbeatSound = document.getElementById('heartbeatSound'); // Sonido de l
 const typeSound = document.getElementById('typeSound'); // sonido de tipeo
 
 /* =========================================
-   EFECTO MÁQUINA DE ESCRIBIR
+   EFECTO MÁQUINA DE ESCRIBIR CON PAUSAS DINÁMICAS
 ========================================= */
 function typeWriter(text, element, callback) {
     element.textContent = "";
     let i = 0;
-    const speed = 20; // ms por carácter
-
-    // Asegurar que el sonido comienza solo una vez
+    const baseSpeed = 20; // Velocidad base en ms
+    
     typeSound.currentTime = 0;
     typeSound.play();
 
     function type() {
         if (i < text.length) {
             element.textContent += text.charAt(i);
-            i++;
+            
+            let speed = baseSpeed;
+            const char = text.charAt(i);
+            typeSound.play();
+            
+            // Ajustar la velocidad dependiendo del carácter
+            if (char === '.' || char === '!' || char === '?') {
+                speed = 300; // Pausa larga para puntos
+                typeSound.pause();
+            } else if (char === ',' || char === ';') {
+                speed = 150; // Pausa media para comas y punto y coma
+                typeSound.pause();
+            } else if (char === ':') {
+                speed = 200; // Pausa intermedia para dos puntos
+                typeSound.pause();
+            }
 
+            i++;
             element.scrollTop = element.scrollHeight;
             document.documentElement.scrollTop = document.documentElement.scrollHeight;
             setTimeout(type, speed);
         } else {
-            // Detener el sonido solo cuando termine de escribir todo
             typeSound.pause();
             typeSound.currentTime = 0;
 
@@ -54,17 +68,13 @@ function typeWriter(text, element, callback) {
    MOSTRAR LA PÁGINA ANTERIOR
 ========================================= */
 function displayPreviousPage() {
-    // Si no hay página anterior, limpiamos y salimos
     if (!previousNode) {
-        previousTextDiv.textContent = "Rules:\nChoose between the two options and discover where your decisions lead you!";
+        previousTextDiv.textContent = "Reglas:\nElige entre las opciones y descubre a dónde te llevan tus decisiones!";
         previousChoicesDiv.innerHTML = "";
         return;
     }
 
-    // Texto del nodo anterior
     previousTextDiv.textContent = storyNodes[previousNode].text;
-
-    // Mostramos las opciones del nodo anterior
     previousChoicesDiv.innerHTML = "";
     storyNodes[previousNode].options.forEach((opt, idx) => {
         const choiceSpan = document.createElement('span');
@@ -72,10 +82,8 @@ function displayPreviousPage() {
         choiceSpan.classList.add('previous-choice');
 
         if (idx !== previousChoiceIndex) {
-            // Opción NO elegida -> más transparente
             choiceSpan.style.opacity = "0.5";
         } else {
-            // Opción elegida -> estilo normal o en negrita
             choiceSpan.style.fontWeight = "bold";
         }
         previousChoicesDiv.appendChild(choiceSpan);
@@ -86,20 +94,17 @@ function displayPreviousPage() {
    MOSTRAR LA PÁGINA ACTUAL
 ========================================= */
 function displayCurrentPage(nodeId) {
-    // Limpiamos texto y botones actuales
     currentTextDiv.textContent = "";
     currentChoicesDiv.innerHTML = "";
 
-    // Efecto de máquina de escribir
     typeWriter(storyNodes[nodeId].text, currentTextDiv, function () {
         let contador = 0;
-        // Al terminar de escribir, creamos los botones
         storyNodes[nodeId].options.forEach((option, idx) => {
             const btn = document.createElement('button');
             btn.textContent = option.text;
 
             if (storyNodes[option.next] && storyNodes[option.next].isEnding) {
-                applyHeartbeatEffect(); // Si es un final, activa el efecto
+                applyHeartbeatEffect();
                 contador += 1;
             }
             if (contador == 0) {
@@ -107,12 +112,9 @@ function displayCurrentPage(nodeId) {
             }
 
             btn.addEventListener('click', () => {
-                // Al hacer clic en una opción:
-                previousNode = nodeId;          // Guardamos el nodo actual como "anterior"
-                previousChoiceIndex = idx;      // Guardamos el índice de la opción elegida
-                currentNode = option.next;      // Actualizamos el nodo actual
-
-                // Volvemos a mostrar
+                previousNode = nodeId;
+                previousChoiceIndex = idx;
+                currentNode = option.next;
                 displayPreviousPage();
                 displayCurrentPage(currentNode);
             });
@@ -129,23 +131,14 @@ function displayCurrentPage(nodeId) {
 function restartStory() {
     localStorage.removeItem('storyState');
     location.reload();
-    // currentNode = 'portada';
-    // previousNode = null;
-    // previousChoiceIndex = null;
-    // saveProgress();
-    // displayPreviousPage();
-    // displayCurrentPage(currentNode);
 }
 
-/* Evento para el botón "Reiniciar" y "bookmark" */
 restartBtn.addEventListener('click', restartStory);
 bookmarkBtn.addEventListener('click', saveProgress);
 
 /* =========================================
    LOGICA GUARDAR Y CARGAR PROGRESO
 ========================================= */
-
-// Guardar el estado actual en el almacenamiento local
 function saveProgress() {
     const state = {
         currentNode: currentNode,
@@ -156,7 +149,6 @@ function saveProgress() {
     alert('Progreso guardado!');
 }
 
-// Cargar el estado guardado del almacenamiento local
 function loadProgress() {
     const savedState = localStorage.getItem('storyState');
     if (savedState) {
@@ -164,26 +156,24 @@ function loadProgress() {
         currentNode = state.currentNode;
         previousNode = state.previousNode;
         previousChoiceIndex = state.previousChoiceIndex;
-        console.log('Progreso cargado:', state);
-    } else {
-        console.log('No hay progreso guardado.');
     }
 }
 
 /* =========================================
    FUNCIONES SONIDOS
 ========================================= */
-
 function applyHeartbeatEffect() {
-    book.classList.add('heartbeat-effect'); // Activa la animación
-    heartbeatSound.currentTime = 0; // Reinicia el sonido
-    heartbeatSound.play(); // Reproduce el sonido
+    book.classList.remove('heartbeat-effect');
+    void book.offsetWidth; // Forza el reflow
+    book.classList.add('heartbeat-effect');
+    heartbeatSound.currentTime = 0;
+    heartbeatSound.play();
 }
 
 function removeHeartbeatEffect() {
-    book.classList.remove('heartbeat-effect'); // Quita la animación
-    heartbeatSound.pause(); // Pausa el sonido
-    heartbeatSound.currentTime = 0; // Reinicia el audio
+    book.classList.remove('heartbeat-effect');
+    heartbeatSound.pause();
+    heartbeatSound.currentTime = 0;
 }
 
 /* =========================================
@@ -191,10 +181,8 @@ function removeHeartbeatEffect() {
 ========================================= */
 let storyNodes = {};
 
-// intento cargar progreso
 loadProgress();
 
-// Cargo los nodos y comienza la historia
 fetch('storyNodes.json')
     .then(response => response.json())
     .then(data => {
@@ -203,7 +191,7 @@ fetch('storyNodes.json')
         displayCurrentPage(currentNode);
     })
     .catch(error => {
-        console.error('Error al cargar el archivo JSON:', error)
+        console.error('Error al cargar el archivo JSON:', error);
         previousTextDiv.textContent = "Error al cargar la historia :(";
         previousChoicesDiv.innerHTML = "";
     });

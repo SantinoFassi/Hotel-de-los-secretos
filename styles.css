@@ -134,6 +134,7 @@ body {
     padding: 10px;
     font-size: 16px;
     cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
 }
 
 .choices button:hover {
