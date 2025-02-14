@@ -24,22 +24,36 @@ const typeSound = document.getElementById('typeSound'); // sonido de tipeo
 function typeWriter(text, element, callback) {
     element.textContent = "";
     let i = 0;
-    const speed = 20; // ms por carácter
-
-    // Asegurar que el sonido comienza solo una vez
+    const baseSpeed = 20; // Velocidad base en ms
+    
     typeSound.currentTime = 0;
     typeSound.play();
 
     function type() {
         if (i < text.length) {
             element.textContent += text.charAt(i);
-            i++;
+            
+            let speed = baseSpeed;
+            const char = text.charAt(i);
+            typeSound.play();
+            
+            // Ajustar la velocidad dependiendo del carácter
+            if (char === '.' || char === '!' || char === '?') {
+                speed = 300; // Pausa larga para puntos
+                typeSound.pause();
+            } else if (char === ',' || char === ';') {
+                speed = 150; // Pausa media para comas y punto y coma
+                typeSound.pause();
+            } else if (char === ':') {
+                speed = 200; // Pausa intermedia para dos puntos
+                typeSound.pause();
+            }
 
+            i++;
             element.scrollTop = element.scrollHeight;
             document.documentElement.scrollTop = document.documentElement.scrollHeight;
             setTimeout(type, speed);
         } else {
-            // Detener el sonido solo cuando termine de escribir todo
             typeSound.pause();
             typeSound.currentTime = 0;
 
@@ -129,12 +143,6 @@ function displayCurrentPage(nodeId) {
 function restartStory() {
     localStorage.removeItem('storyState');
     location.reload();
-    // currentNode = 'portada';
-    // previousNode = null;
-    // previousChoiceIndex = null;
-    // saveProgress();
-    // displayPreviousPage();
-    // displayCurrentPage(currentNode);
 }
 
 /* Evento para el botón "Reiniciar" y "bookmark" */
@@ -175,9 +183,11 @@ function loadProgress() {
 ========================================= */
 
 function applyHeartbeatEffect() {
-    book.classList.add('heartbeat-effect'); // Activa la animación
-    heartbeatSound.currentTime = 0; // Reinicia el sonido
-    heartbeatSound.play(); // Reproduce el sonido
+    book.classList.remove('heartbeat-effect');
+    void book.offsetWidth; // Forza el reflow
+    book.classList.add('heartbeat-effect');
+    heartbeatSound.currentTime = 0;
+    heartbeatSound.play();
 }
 
 function removeHeartbeatEffect() {
