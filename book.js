@@ -1,329 +1,479 @@
-/* =========================================
-   VARIABLES PARA GUARDAR ESTADO
-========================================= */
-let currentNode = 'portada';
-let previousNode = null;
-let previousChoiceIndex = null; // Para saber qué opción se eligió
 
 /* =========================================
-   OBTENEMOS REFERENCIAS DEL DOM
-========================================= */
-const previousTextDiv = document.getElementById('previousText');
-const previousChoicesDiv = document.getElementById('previousChoices');
-const currentTextDiv = document.getElementById('currentText');
-const currentChoicesDiv = document.getElementById('currentChoices');
-const restartBtn = document.getElementById('restartBtn');
-const bookmarkBtn = document.getElementById('bookmarkBtn');
-const book = document.querySelector('.book'); // Referencia al libro
-const heartbeatSound = document.getElementById('heartbeatSound'); // Sonido de latido
-const typeSound = document.getElementById('typeSound'); // sonido de tipeo
-
-/* =========================================
-   PROCESAR TEXTO CON ETIQUETAS
+   CLASE TagProcessor
+   Se encarga de procesar el texto y reemplazar nuestras etiquetas personalizadas
+   por elementos HTML con clases y atributos de datos.
 ========================================== */
-function processTextWithTags(text) {
-    return text.replace(/<shake force=(\d+)>/g, '<span class="shake" data-force="$1">')
-               .replace(/<\/shake>/g, '</span>')
-               .replace(/<instant>/g, '<span class="instant">')
-               .replace(/<\/instant>/g, '</span>')
-               .replace(/<slow(?: speed=(\d+))?>/g, '<span class="slow" data-speed="$1">')
-               .replace(/<\/slow>/g, '</span>')
-               .replace(/<fade(?: speed=(\d+))?>/g, '<span class="fade" data-speed="$1">')
-               .replace(/<\/fade>/g, '</span>')
-               .replace(/<glitch>/g, '<span class="glitch">')
-               .replace(/<\/glitch>/g, '</span>');
+class TagProcessor {
+    static tagConfig = [
+        { tag: "shake", className: "shake", attributes: ["force"] },
+        { tag: "instant", className: "instant", attributes: [] },
+        { tag: "slow", className: "slow", attributes: ["speed"] },
+        { tag: "fade", className: "fade", attributes: ["speed"] },
+        { tag: "glitch", className: "glitch", attributes: [] }
+    ];
+
+    static process(text) {
+        this.tagConfig.forEach(({ tag, className, attributes }) => {
+            // Construir una expresión regular que capture la etiqueta y sus atributos opcionales
+            const attrPattern = attributes.length > 0
+                ? attributes.map(attr => `${attr}=(\\d+)`).join("\\s*")
+                : "";
+            const openTagRegex = new RegExp(`<${tag}(?:\\s*${attrPattern})?>`, "g");
+            const closeTagRegex = new RegExp(`</${tag}>`, "g");
+
+            text = text.replace(openTagRegex, (match, ...attrValues) => {
+                let attrString = "";
+                attributes.forEach((attr, index) => {
+                    if (attrValues[index]) {
+                        attrString += ` data-${attr}="${attrValues[index]}"`;
+                    }
+                });
+                return `<span class="${className}"${attrString}>`;
+            });
+
+            text = text.replace(closeTagRegex, "</span>");
+        });
+
+        return text;
+    }
 }
 
 /* =========================================
-   FUNCIONES PARA PROCESAR EFECTOS ESPECIALES
+   CLASE EffectProcessor
+   Se encarga de aplicar (o re-aplicar) los efectos visuales a un contenedor
+   basándose en las clases definidas (shake, fade, glitch).
 ========================================== */
+class EffectProcessor {
+    static glitchIntervals = new Map(); // Para evitar fugas de memoria
 
-// Procesa elementos con la clase "shake" para que cada letra se envuelva en un <span>
-// y se asigne un retardo aleatorio, usando la variable CSS --shake-force según el atributo "data-force".
-function processShakeElements(container) {
-    container.querySelectorAll('.shake').forEach(el => {
-        const force = el.getAttribute('data-force') || 1;
-        el.style.setProperty('--shake-force', force);
-        const text = el.textContent;
-        el.innerHTML = '';
-        for (const letter of text) {
-            const span = document.createElement('span');
-            span.textContent = letter;
-            span.style.display = 'inline-block';
-            span.style.animationDelay = Math.random() * 0.5 + 's';
-            el.appendChild(span);
-        }
-    });
-}
+    static effectHandlers = {
+        shake: (el) => {
+            if (el.dataset.processed) return; // Evita reprocesar
+            el.dataset.processed = true;
 
-function processFadeElements(container) {
-    container.querySelectorAll('.fade').forEach(el => {
-        const speed = parseFloat(el.getAttribute('data-speed')) || 1; // Convierte a número
-        el.style.animationDuration = `${speed}s`; // Aplica la velocidad en segundos
-    });
-}
+            const force = el.getAttribute('data-force') || 1;
+            el.style.setProperty('--shake-force', force);
 
-
-// Aplica el efecto glitch: cada 200ms, algunas letras se reemplazan aleatoriamente.
-function applyGlitchEffect(el) {
-    const originalText = el.textContent;
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    setInterval(() => {
-        let newText = "";
-        for (let i = 0; i < originalText.length; i++) {
-            // Con una probabilidad del 10% se reemplaza la letra
-            if (Math.random() < 0.1) {
-                newText += chars.charAt(Math.floor(Math.random() * chars.length));
-            } else {
-                newText += originalText[i];
+            const text = el.textContent;
+            el.innerHTML = '';
+            for (const letter of text) {
+                const span = document.createElement('span');
+                span.textContent = letter;
+                span.style.display = 'inline-block';
+                span.style.animationDelay = Math.random() * 0.5 + 's';
+                el.appendChild(span);
             }
+        },
+        fade: (el) => {
+            if (el.dataset.processed) return; // Evita reprocesar
+            el.dataset.processed = true;
+            const speed = parseFloat(el.getAttribute('data-speed')) || 1;
+            el.style.animationDuration = `${speed}s`;
+        },
+        glitch: (el) => {
+            // Guarda el texto original en el elemento, si aún no existe
+            if (!el.dataset.originalText) {
+                el.dataset.originalText = el.textContent;
+            }
+
+            if (el.dataset.processed) return; // Evita reprocesar
+            el.dataset.processed = true;
+
+            const originalText = el.dataset.originalText;
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+            // Función que actualiza el texto con efecto glitch
+            const updateGlitch = () => {
+                let newText = "";
+                for (let i = 0; i < originalText.length; i++) {
+                    newText += Math.random() < 0.1
+                        ? chars.charAt(Math.floor(Math.random() * chars.length))
+                        : originalText[i];
+                }
+                el.textContent = newText;
+                el.setAttribute('data-text', newText);
+            };
+
+            // Llama a la función de inmediato para aplicar el efecto sin retraso
+            updateGlitch();
+
+            // Luego inicia el intervalo para seguir aplicando el efecto
+            const interval = setInterval(updateGlitch, 200);
+            EffectProcessor.glitchIntervals.set(el, interval);
         }
-        el.textContent = newText;
-        // Actualiza el atributo para que, si usas pseudo-elementos, muestren el texto correcto
-        el.setAttribute('data-text', newText);
-    }, 200);
+
+    };
+
+    static process(container) {
+        Object.keys(this.effectHandlers).forEach(effect => {
+            container.querySelectorAll(`.${effect}`).forEach(el => {
+                this.effectHandlers[effect](el);
+            });
+        });
+    }
 }
 
-function processGlitchElements(container) {
-    container.querySelectorAll('.glitch').forEach(el => {
-        el.setAttribute('data-text', el.textContent);
-        applyGlitchEffect(el);
-    });
-}
+
+
+
 
 /* =========================================
-   EFECTO MÁQUINA DE ESCRIBIR CON PAUSAS DINÁMICAS Y ETIQUETAS
+   CLASE Typewriter
+   Se encarga del efecto máquina de escribir. Recibe un texto (con etiquetas procesadas)
+   y lo escribe en el contenedor carácter a carácter, procesando recursivamente nodos HTML.
+   Así se garantiza que, incluso dentro de etiquetas como <fade> o <glitch>,
+   el texto se tipeará gradualmente.
 ========================================== */
-function typeWriter(text, element, callback) {
-    element.innerHTML = "";
-    const baseSpeed = 20; // Velocidad base en ms
-    typeSound.currentTime = 0;
-    typeSound.play();
+class TypeWriter {
+    /**
+     * @param {string} text - El texto original (con etiquetas personalizadas) a mostrar.
+     * @param {HTMLElement} element - El elemento donde se escribirá el texto.
+     * @param {Object} [options] - Opciones adicionales.
+     * @param {number} [options.baseSpeed=20] - Velocidad base en milisegundos.
+     * @param {HTMLAudioElement} [options.typeSound] - Sonido a reproducir en cada tecla.
+     * @param {function} [options.callback] - Función a ejecutar al finalizar la animación.
+     */
+    constructor(text, element, options = {}) {
+        this.text = text;
+        this.element = element;
+        this.callback = options.callback || null;
+        this.baseSpeed = options.baseSpeed || 20;
+        this.typeSound =
+            options.typeSound ||
+            (typeof typeSound !== 'undefined' ? typeSound : null); // Permite pasar un audio o usar uno global
 
-    // Procesamos las etiquetas personalizadas
-    const processedText = processTextWithTags(text);
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = processedText;
-    const nodes = Array.from(tempDiv.childNodes);
-    let i = 0;
+        // Variables internas
+        this.nodes = [];
+        this.currentNodeIndex = 0;
+    }
 
-    function type() {
-        if (i < nodes.length) {
-            let node = nodes[i];
-            let speed = baseSpeed;
-            let slowSpeed = null;
-            if (node.nodeType === Node.ELEMENT_NODE)
-            {
-                slowSpeed = node.dataset.speed || 100;
+    /**
+     * Inicializa el proceso: limpia el contenedor, reproduce el sonido inicial
+     * y procesa las etiquetas personalizadas.
+     */
+    init() {
+        // Limpia el contenido del elemento
+        this.element.innerHTML = "";
+
+        // Reinicia y reproduce el sonido de tipeo si está definido
+        if (this.typeSound) {
+            this.typeSound.currentTime = 0;
+            this.typeSound.play();
+        }
+
+        // Procesa las etiquetas personalizadas
+        const processedText = TagProcessor.process(this.text);
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = processedText;
+        this.nodes = Array.from(tempDiv.childNodes);
+        this.currentNodeIndex = 0;
+    }
+
+    /**
+     * Inicia el efecto "máquina de escribir".
+     */
+    start() {
+        this.init();
+        this.type();
+    }
+
+    /**
+     * Procesa el siguiente nodo (ya sea texto o un elemento) y lo escribe en el elemento.
+     */
+    type() {
+        if (this.currentNodeIndex < this.nodes.length) {
+            const node = this.nodes[this.currentNodeIndex];
+            const speedModifierClasses = ["slow"];
+            let speed = this.baseSpeed;
+            let specialSpeed = null;
+
+
+            if (node.classList && node.classList.contains("instant")) {
+                specialSpeed = 0;
             }
-            if (node.nodeType === Node.TEXT_NODE || (node.classList && node.classList.contains("slow"))) {
-                // Escribir el texto carácter por carácter
-                let textContent = node.textContent;
+            else if (node.classList && speedModifierClasses.some(cls => node.classList.contains(cls))) {
+                specialSpeed = node.dataset.speed || 100;
+            }
+
+
+            if (node.nodeType === Node.TEXT_NODE || (node.classList && speedModifierClasses.some(cls => node.classList.contains(cls)))) {
+                const textContent = node.textContent;
                 let charIndex = 0;
-                function typeChar() {
+
+                const typeChar = () => {
                     if (charIndex < textContent.length) {
-                        element.appendChild(document.createTextNode(textContent.charAt(charIndex)));
-                        let char = textContent.charAt(charIndex);
-                        typeSound.play();
+                        // Agrega el siguiente carácter al elemento destino
+                        this.element.appendChild(document.createTextNode(textContent.charAt(charIndex)));
+                        const char = textContent.charAt(charIndex);
+
+                        // Reproduce el sonido de tipeo, si está definido
+                        if (this.typeSound) this.typeSound.play();
+
+                        // Ajusta la velocidad en función del carácter
                         if ('.!?'.includes(char)) {
-                            speed = slowSpeed;
-                            typeSound.pause();
+                            speed = 300;
+                            if (this.typeSound) this.typeSound.pause();
                         } else if (',;'.includes(char)) {
                             speed = 150;
-                            typeSound.pause();
+                            if (this.typeSound) this.typeSound.pause();
                         } else if (char === ':') {
                             speed = 200;
-                            typeSound.pause();
+                            if (this.typeSound) this.typeSound.pause();
                         } else {
-                            speed = baseSpeed;
+                            speed = this.baseSpeed;
                         }
-                        if (node.classList && node.classList.contains("slow"))
-                        {
-                            speed = slowSpeed;
+                        // Si el nodo tiene la clase "slow", usamos la velocidad lenta
+                        if (node.classList && speedModifierClasses.some(cls => node.classList.contains(cls))) {
+                            speed = specialSpeed;
                         }
                         charIndex++;
-                        element.scrollTop = element.scrollHeight;
+
+                        // Asegura que se mantenga el scroll al final
+                        this.element.scrollTop = this.element.scrollHeight;
                         document.documentElement.scrollTop = document.documentElement.scrollHeight;
+
                         setTimeout(typeChar, speed);
                     } else {
-                        i++;
-                        setTimeout(type, speed);
+                        // Terminado el nodo actual, pasa al siguiente
+                        this.currentNodeIndex++;
+                        setTimeout(() => this.type(), speed);
                     }
-                }
+                };
                 typeChar();
-            } 
-            else {
+            } else {
                 // Si es un elemento HTML (por ejemplo, <span class="shake"> o <span class="glitch">)
-                element.appendChild(node);
-                processShakeElements(element);
-                processGlitchElements(element);
-                processFadeElements(element);
-                i++;
-                setTimeout(type, baseSpeed);
+                this.element.appendChild(node);
+                // Procesa efectos adicionales (por ejemplo, shake, glitch, fade)
+                EffectProcessor.process(this.element);
+                this.currentNodeIndex++;
+                setTimeout(() => this.type(), this.baseSpeed);
             }
         } else {
-            typeSound.pause();
-            typeSound.currentTime = 0;
-            if (callback) callback();
+            // Finalizó el tipeo: detiene el sonido y ejecuta el callback, si existe.
+            if (this.typeSound) {
+                this.typeSound.pause();
+                this.typeSound.currentTime = 0;
+            }
+            if (this.callback) {
+                this.callback();
+            }
         }
     }
-    type();
+}
+
+
+
+
+/* =========================================
+   CLASE BookEffects
+   Maneja la aplicación y remoción de efectos visuales (por ejemplo, latido) sobre el elemento "libro".
+========================================== */
+class BookEffects {
+    static applyHeartbeatEffect(book, heartbeatSound) {
+        book.classList.remove('heartbeat-effect');
+        void book.offsetWidth; // Forza el reflow
+        book.classList.add('heartbeat-effect');
+        heartbeatSound.currentTime = 0;
+        heartbeatSound.play();
+    }
+
+    static removeHeartbeatEffect(book, heartbeatSound) {
+        book.classList.remove('heartbeat-effect'); // Quita la animación
+        heartbeatSound.pause(); // Pausa el sonido
+        heartbeatSound.currentTime = 0; // Reinicia el audio
+    }
+}
+
+
+/* =========================================
+   CLASE SaveManager
+   Encapsula la lógica de guardar y cargar el progreso en localStorage.
+========================================== */
+class SaveManager {
+    static save(state) {
+        localStorage.setItem('storyState', JSON.stringify(state));
+        alert('Progress saved!');
+    }
+    static load() {
+        const savedState = localStorage.getItem('storyState');
+        return savedState ? JSON.parse(savedState) : null;
+    }
+    static clear() {
+        localStorage.removeItem('storyState');
+    }
+
 }
 
 /* =========================================
-   MOSTRAR LA PÁGINA ANTERIOR
-========================================= */
-function displayPreviousPage() {
-    // Si no hay página anterior, limpiamos y salimos
-    if (!previousNode) {
-        previousTextDiv.textContent = "Rules:\nChoose between the two options and discover where your decisions lead you!\nTip: You can save your progress by clicking the bookmark icon!";
-        previousChoicesDiv.innerHTML = "";
-        return;
+   CLASE StoryEngine
+   Es el núcleo del motor narrativo. Se encarga de:
+   - Mantener el estado de la historia (nodo actual, anterior, elección realizada)
+   - Mostrar la página actual y la anterior (procesando texto, opciones y efectos)
+   - Gestionar la navegación entre nodos
+   - Integrar la funcionalidad de guardado/carga
+========================================== */
+class StoryEngine {
+    /**
+ * @param {Object} [options] - Referencias al libro.
+ * @param {HTMLDivElement} [options.previousTextDiv] - Referencia a la carilla izquierda.
+ * @param {HTMLDivElement} [options.previousChoicesDiv] - Referencia opciones anteriores.
+ * @param {HTMLDivElement} [options.currentTextDiv] - Referencia a la carilla derecha.
+ * @param {HTMLDivElement} [options.currentChoicesDiv] - Referencia opciones actuales.
+ * @param {HTMLInputElement} [options.restartBtn] - Referencia boton de reinicio.
+ * @param {HTMLInputElement} [options.bookmarkBtn] - Referencia boton de guardado.
+ * @param {HTMLDivElement} [options.book] - Referencia al libro.
+ * @param {HTMLAudioElement} [options.heartbeatSound] - Sonido de latido.
+ * @param {HTMLAudioElement} [options.typeSound] - Sonido de tipeo.
+ */
+    constructor(options) {
+        // Estado inicial
+        this.currentNode = 'portada';
+        this.previousNode = null;
+        this.previousChoiceIndex = null; // Para saber qué opción se eligió
+        this.storyNodes = {};
+
+        // Referencias del DOM
+        this.previousTextDiv = options.previousTextDiv;
+        this.previousChoicesDiv = options.previousChoicesDiv;
+        this.currentTextDiv = options.currentTextDiv;
+        this.currentChoicesDiv = options.currentChoicesDiv;
+        this.restartBtn = options.restartBtn;
+        this.bookmarkBtn = options.bookmarkBtn;
+        this.book = options.book;
+        this.heartbeatSound = options.heartbeatSound;
+        this.typeSound = options.typeSound;
+
+        this.restartBtn.addEventListener('click', () => this.restartStory());
+        this.bookmarkBtn.addEventListener('click', () => this.saveProgress());
+
     }
-
-    // Procesar etiquetas en el texto de la página anterior
-    previousTextDiv.innerHTML = processTextWithTags(storyNodes[previousNode].text);
-    processShakeElements(previousTextDiv);
-    processGlitchElements(previousTextDiv);
-
-    // Mostramos las opciones del nodo anterior
-    previousChoicesDiv.innerHTML = "";
-    storyNodes[previousNode].options.forEach((opt, idx) => {
-        const choiceSpan = document.createElement('span');
-        //choiceSpan.textContent = opt.text;
-        choiceSpan.innerHTML = processTextWithTags(opt.text); // Por si quiero que el texto anterior tambien tenga efectos
-        choiceSpan.classList.add('previous-choice');
-
-        if (idx !== previousChoiceIndex) {
-            // Opción NO elegida -> más transparente
-            choiceSpan.style.opacity = "0.5";
+    start(url = "storyNodes.json") {
+        this.loadProgress();
+        this.loadStory(url);
+    }
+    loadStory(url) {
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                this.storyNodes = data;
+                this.displayPreviousPage();
+                this.displayCurrentPage(this.currentNode);
+            })
+            .catch(error => {
+                console.error('Error al cargar el archivo JSON:', error)
+                this.previousTextDiv.textContent = "Error al cargar la historia :(";
+                this.previousChoicesDiv.innerHTML = "";
+            });
+    }
+    saveProgress() {
+        const state = {
+            currentNode: this.currentNode,
+            previousNode: this.previousNode,
+            previousChoiceIndex: this.previousChoiceIndex
+        };
+        SaveManager.save(state);
+    }
+    loadProgress() {
+        const state = SaveManager.load();
+        if (state) {
+            this.currentNode = state.currentNode;
+            this.previousNode = state.previousNode;
+            this.previousChoiceIndex = state.previousChoiceIndex;
+            console.log('Progreso cargado:', state);
         } else {
-            // Opción elegida -> estilo normal o en negrita
-            choiceSpan.style.fontWeight = "bold";
+            console.log('No hay progreso guardado.');
         }
-        previousChoicesDiv.appendChild(choiceSpan);
-        processShakeElements(choiceSpan);
-        processGlitchElements(choiceSpan);
-        processFadeElements(choiceSpan);
-    });
-}
+    }
+    restartStory() {
+        SaveManager.clear();
+        location.reload();
+    }
+    displayPreviousPage() {
+        // Si no hay página anterior, limpiamos y salimos
+        if (!this.previousNode) {
+            this.previousTextDiv.textContent = "Rules:\nChoose between the two options and discover where your decisions lead you!\nTip: You can save your progress by clicking the bookmark icon!";
+            this.previousChoicesDiv.innerHTML = "";
+            return;
+        }
 
-/* =========================================
-   MOSTRAR LA PÁGINA ACTUAL
-========================================= */
-function displayCurrentPage(nodeId) {
-    currentTextDiv.innerHTML = "";
-    currentChoicesDiv.innerHTML = "";
+        // Procesar etiquetas en el texto de la página anterior
+        this.previousTextDiv.innerHTML = TagProcessor.process(this.storyNodes[this.previousNode].text);
+        EffectProcessor.process(this.previousTextDiv);
 
-    typeWriter(storyNodes[nodeId].text, currentTextDiv, function () {
+        // Mostramos las opciones del nodo anterior
+        this.previousChoicesDiv.innerHTML = "";
+        this.storyNodes[this.previousNode].options.forEach((opt, idx) => {
+            const choiceSpan = document.createElement('span');
+            choiceSpan.innerHTML = TagProcessor.process(opt.text); // Por si quiero que el texto anterior tambien tenga efectos
+            choiceSpan.classList.add('previous-choice');
+
+            if (idx !== this.previousChoiceIndex) {
+                // Opción NO elegida -> más transparente
+                choiceSpan.style.opacity = "0.5";
+            } else {
+                // Opción elegida -> estilo normal o en negrita
+                choiceSpan.style.fontWeight = "bold";
+            }
+            this.previousChoicesDiv.appendChild(choiceSpan);
+            EffectProcessor.process(choiceSpan);
+        });
+    }
+    generateOptionButtons() {
         let contador = 0;
-        storyNodes[nodeId].options.forEach((option, idx) => {
+        this.storyNodes[this.currentNode].options.forEach((option, idx) => {
             const btn = document.createElement('button');
-            btn.innerHTML = processTextWithTags(option.text);
-            //btn.textContent = option.text;
+            btn.innerHTML = TagProcessor.process(option.text);
 
-            if (storyNodes[option.next] && storyNodes[option.next].isEnding) {
-                applyHeartbeatEffect();
+            if (this.storyNodes[option.next] && this.storyNodes[option.next].isEnding) {
+                BookEffects.applyHeartbeatEffect(this.book, this.heartbeatSound);
                 contador += 1;
             }
             if (contador === 0) {
-                removeHeartbeatEffect();
+                BookEffects.removeHeartbeatEffect(this.book, this.heartbeatSound);
             }
 
             btn.addEventListener('click', () => {
-                previousNode = nodeId;
-                previousChoiceIndex = idx;
-                currentNode = option.next;
-                displayPreviousPage();
-                displayCurrentPage(currentNode);
+                this.previousNode = this.currentNode;
+                this.previousChoiceIndex = idx;
+                this.currentNode = option.next;
+                this.displayPreviousPage();
+                this.displayCurrentPage(this.currentNode);
             });
-            currentChoicesDiv.appendChild(btn);
-            processShakeElements(btn);
-            processGlitchElements(btn);
-            processFadeElements(btn);
-            currentTextDiv.scrollTop = currentTextDiv.scrollHeight;
+            this.currentChoicesDiv.appendChild(btn);
+            EffectProcessor.process(btn);
+            this.currentTextDiv.scrollTop = this.currentTextDiv.scrollHeight;
             document.documentElement.scrollTop = document.documentElement.scrollHeight;
         });
-    });
-}
-
-/* =========================================
-   REINICIAR HISTORIA
-========================================= */
-function restartStory() {
-    localStorage.removeItem('storyState');
-    location.reload();
-}
-
-/* Evento para el botón "Reiniciar" y "bookmark" */
-restartBtn.addEventListener('click', restartStory);
-bookmarkBtn.addEventListener('click', saveProgress);
-
-/* =========================================
-   LOGICA GUARDAR Y CARGAR PROGRESO
-========================================= */
-
-// Guardar el estado actual en el almacenamiento local
-function saveProgress() {
-    const state = {
-        currentNode: currentNode,
-        previousNode: previousNode,
-        previousChoiceIndex: previousChoiceIndex
-    };
-    localStorage.setItem('storyState', JSON.stringify(state));
-    alert('Progress saved!');
-}
-
-// Cargar el estado guardado del almacenamiento local
-function loadProgress() {
-    const savedState = localStorage.getItem('storyState');
-    if (savedState) {
-        const state = JSON.parse(savedState);
-        currentNode = state.currentNode;
-        previousNode = state.previousNode;
-        previousChoiceIndex = state.previousChoiceIndex;
-        console.log('Progreso cargado:', state);
-    } else {
-        console.log('No hay progreso guardado.');
     }
-}
+    displayCurrentPage(nodeId) {
+        this.currentTextDiv.innerHTML = "";
+        this.currentChoicesDiv.innerHTML = "";
 
-/* =========================================
-   FUNCIONES SONIDOS
-========================================= */
-
-function applyHeartbeatEffect() {
-    book.classList.remove('heartbeat-effect');
-    void book.offsetWidth; // Forza el reflow
-    book.classList.add('heartbeat-effect');
-    heartbeatSound.currentTime = 0;
-    heartbeatSound.play();
-}
-
-function removeHeartbeatEffect() {
-    book.classList.remove('heartbeat-effect'); // Quita la animación
-    heartbeatSound.pause(); // Pausa el sonido
-    heartbeatSound.currentTime = 0; // Reinicia el audio
+        const writer = new TypeWriter(this.storyNodes[nodeId].text, this.currentTextDiv, {
+            baseSpeed: 20,
+            typeSound: this.typeSound,
+            callback: this.generateOptionButtons.bind(this)
+        });
+        writer.start();
+    }
 }
 
 /* =========================================
    INICIALIZAR LA AVENTURA
 ========================================= */
-let storyNodes = {};
 
-// intento cargar progreso
-loadProgress();
+const engine = new StoryEngine({
+    previousTextDiv: document.getElementById('previousText'),
+    previousChoicesDiv: document.getElementById('previousChoices'),
+    currentTextDiv: document.getElementById('currentText'),
+    currentChoicesDiv: document.getElementById('currentChoices'),
+    restartBtn: document.getElementById('restartBtn'),
+    bookmarkBtn: document.getElementById('bookmarkBtn'),
+    book: document.querySelector('.book'),
+    typeSound: document.getElementById('typeSound'),
+    heartbeatSound: document.getElementById('heartbeatSound')
+});
 
-// Cargo los nodos y comienza la historia
-fetch('storyNodes.json')
-    .then(response => response.json())
-    .then(data => {
-        storyNodes = data;
-        displayPreviousPage();
-        displayCurrentPage(currentNode);
-    })
-    .catch(error => {
-        console.error('Error al cargar el archivo JSON:', error)
-        previousTextDiv.textContent = "Error al cargar la historia :(";
-        previousChoicesDiv.innerHTML = "";
-    });
+
+engine.start("storyNodes.json");
